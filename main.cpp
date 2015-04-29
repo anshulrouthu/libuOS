@@ -13,7 +13,7 @@ char pool[POOL_SIZE];
 
 int main(int argc, char* argv[])
 {
-	char* ptr[100];
+	char* ptr[1024];
 	printf("Memmgr\n");
 	InitMemPool(pool, POOL_SIZE);
 	PrintStatus(pool);
@@ -26,6 +26,21 @@ int main(int argc, char* argv[])
 
 	printf("Freeing\n");
 	for (int i = 0; i < 5; ++i)
+	{
+		Mem_free(ptr[i]);
+		PrintStatus(pool);
+	}
+
+	printf("Second iteration \n");
+
+	for (int i = 0; i < 2; ++i)
+	{
+		ptr[i] = (char*)Mem_malloc(1024);
+		PrintStatus(pool);
+	}
+
+	printf("Freeing\n");
+	for (int i = 0; i < 2; ++i)
 	{
 		Mem_free(ptr[i]);
 		PrintStatus(pool);

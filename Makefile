@@ -1,6 +1,7 @@
 
 OBJS:=$(patsubst %.cpp, %.o, $(wildcard *.cpp))
 OBJS+=$(patsubst %.c, %.o, $(wildcard *.c))
+CFLAGS:=-g
 
 .PHONY: all
 all: main
@@ -19,4 +20,4 @@ main: $(OBJS)
 
 .PHONY: clean
 clean:
-	rm -rf *.o
+	rm -rf *.o main

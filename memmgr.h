@@ -18,7 +18,7 @@ extern "C" {
 
 // alignment 4 or 8
 #define ALIGNMENT 8
-#define ALIGN(size) (((size) + (ALIGNMENT -1)) & (~0x7))
+#define ALIGN(size) (((size) + (ALIGNMENT - 1)) & (~0x7))
 
 #define BLOCK_HEADER_SIZE ALIGN(sizeof(block_t))
 #define CAST_PTR(ptr) ((char*)ptr)
