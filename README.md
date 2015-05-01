@@ -1,2 +1,2 @@
-# memmgr
-Small stack based memory manager 
+# Memory Manager
+A Small custom memory allocator
