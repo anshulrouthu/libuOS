@@ -1,11 +1,11 @@
 #
-# Copyright (C)  Anshul Routhu <anshul.m67@gmail.com>
+# Copyright (C) 2015 Anshul Routhu <anshul.m67@gmail.com>
 # All rights reserved.
 #
 
 OBJS:=$(patsubst %.cpp, %.o, $(wildcard *.cpp))
 OBJS+=$(patsubst %.c, %.o, $(wildcard *.c))
-CFLAGS:=-g -DMEM_DEBUG
+CFLAGS:=-g -DMEM_DEBUG -Werror -Wall
 
 .PHONY: all
 all: main

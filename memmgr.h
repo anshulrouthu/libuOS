@@ -1,5 +1,5 @@
 /*
- * Copyright (C)  Anshul Routhu <anshul.m67@gmail.com>
+ * Copyright (C) 2015 Anshul Routhu <anshul.m67@gmail.com>
  * All rights reserved.
  */
 
@@ -7,17 +7,18 @@
 #define MEMMGR_H_
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 
 #include <stdio.h>
 
-int InitMemPool(void* mem, size_t size);
-int DeInitMemPool();
-void* Mem_malloc(size_t size);
-void Mem_free(void* mem);
-void PrintStatus(void* pool);
-void CheckPool();
+int MemInitPool(void* mem, size_t size);
+int MemDeInitPool();
+void* MemAlloc(size_t size);
+void MemFree(void* mem);
+void MemPrintStatus();
+size_t MemCheckPool();
 
 #ifdef __cplusplus
 }
