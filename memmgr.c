@@ -29,7 +29,7 @@ size_t pool_size = 0;
 block_t* FindFit(size_t size);
 void RemoveFromList(block_t** head, block_t* block);
 void InsertToList(block_t** head, block_t* block);
-void MergeBlocks(block_t* b1, block_t* b2);
+int MergeBlocks(block_t* b1, block_t* b2);
 
 int MemInitPool(void* mem, size_t size)
 {
@@ -60,8 +60,8 @@ void* MemAlloc(size_t size)
     }
 
 #ifdef MEM_DEBUG
-    printf("Allocated %d Block Addr: 0x%x Mem Addr: 0x%x\n", (int)block->size & ~0x1, (unsigned int)block,
-        (unsigned int)(CAST_PTR(block) + BLOCK_HEADER_SIZE));
+    printf("Allocated %d Block Addr: %p Mem Addr: %p\n", (int) block->size & ~0x1, block,
+        (CAST_PTR(block) + BLOCK_HEADER_SIZE));
 #endif
 
     return (CAST_PTR(block) + BLOCK_HEADER_SIZE);
@@ -91,8 +91,9 @@ block_t* FindFit(size_t size)
             block2->next = block->next;
             block->next = block2;
             block->size = size;
-            block->size |= 0x1;
         }
+
+        block->size |= 0x1;
         RemoveFromList(&free_list, block);
     }
 
@@ -157,22 +158,29 @@ void InsertToList(block_t** head, block_t* block)
             block->next = tmp->next;
             tmp->next = block;
 
-            MergeBlocks(tmp, block);
-            MergeBlocks(block, tmp->next);
-            MergeBlocks(tmp, tmp->next);
+            if (MergeBlocks(tmp, tmp->next))
+            {
+                MergeBlocks(tmp, tmp->next);
+            }
+            else
+            {
+                MergeBlocks(block, block->next);
+            }
 
             break;
         }
     }
 }
 
-void MergeBlocks(block_t* b1, block_t* b2)
+int MergeBlocks(block_t* b1, block_t* b2)
 {
     if (CAST_PTR(b1) + BLOCK_HEADER_SIZE + b1->size == CAST_PTR(b2))
     {
         b1->size += b2->size + BLOCK_HEADER_SIZE;
         b1->next = b2->next;
+        return (1);
     }
+    return (0);
 }
 
 void MemPrintStatus()
@@ -181,9 +189,8 @@ void MemPrintStatus()
     printf("FreeList\n");
     for (temp = free_list; temp; temp = temp->next)
     {
-        printf("\tSize: %d Block Addr: 0x%d Mem Addr: 0x%d Overhead: %d NextBlock 0x%d\n", (int) temp->size & ~0x01,
-            (unsigned int) temp, (unsigned int) (CAST_PTR(temp) + BLOCK_HEADER_SIZE), (int) BLOCK_HEADER_SIZE,
-            (unsigned int) temp->next);
+        printf("\tSize: %d Block Addr: %p Mem Addr: %p Overhead: %d NextBlock %p\n", (int) temp->size & ~0x01, temp,
+            (CAST_PTR(temp) + BLOCK_HEADER_SIZE), (int) BLOCK_HEADER_SIZE, temp->next);
     }
 }
 
