@@ -8,7 +8,7 @@
 #include <assert.h>
 #include <stdlib.h>
 
-#define POOL_SIZE (1024*1024)
+#define POOL_SIZE (1024*80)
 char pool[POOL_SIZE];
 
 int main(int argc, char* argv[])
@@ -26,56 +26,54 @@ int main(int argc, char* argv[])
     {
         ptr[i] = (char*) MemAlloc(1024);
         assert(ptr[i]);
-        MemPrintStatus();
+        MemFree(ptr[i]);
+    }
+
+    for (int i = 0; i < 5; ++i)
+    {
+        ptr[i] = (char*) MemAlloc(1024);
+        assert(ptr[i]);
     }
 
     for (int i = 0; i < 5; ++i)
     {
         ptr1[i] = (char*) MemAlloc(1024);
         assert(ptr1[i]);
-        MemPrintStatus();
+    }
+
+    for (int i = 0; i < 5; ++i)
+    {
+        MemFree(ptr[i]);
     }
 
     for (int i = 63; i >= 0; --i)
     {
         ptr2[i] = (char*) MemAlloc(i + 1);
         assert(ptr2[i]);
-        MemPrintStatus();
     }
 
     for (int i = 0; i < 1000; ++i)
     {
         ptr3[i] = (char*) MemAlloc(rand() % 100 + 1);
         assert(ptr3[i]);
-        MemPrintStatus();
-    }
-
-    for (int i = 0; i < 5; ++i)
-    {
-        MemFree(ptr[i]);
-        MemPrintStatus();
     }
 
     for (int i = 0; i < 5; ++i)
     {
         MemFree(ptr1[i]);
-        MemPrintStatus();
     }
 
     for (int i = 63; i >= 0; --i)
     {
         MemFree(ptr2[i]);
-        MemPrintStatus();
     }
 
     for (int i = 0; i < 1000; ++i)
     {
         MemFree(ptr3[i]);
-        MemPrintStatus();
     }
 
     MemPrintStatus();
-    MemCheckPool();
     MemDeInitPool();
 
     return 0;
