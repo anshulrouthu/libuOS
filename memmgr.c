@@ -97,8 +97,14 @@ void* MemAlloc(size_t size)
         (CAST_PTR(block) + BLOCK_HEADER_SIZE));
 #endif
 
-    InsertToList(&alloc_list, block);
-    return (CAST_PTR(block) + BLOCK_HEADER_SIZE);
+    if (block)
+    {
+        InsertToList(&alloc_list, block);
+        return (CAST_PTR(block) + BLOCK_HEADER_SIZE);
+    }
+
+    printf("OUT OF MEMORY\n");
+    return NULL;
 
 }
 
