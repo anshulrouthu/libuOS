@@ -12,9 +12,7 @@
 extern "C" {
 #endif
 
-#ifndef UTSK_ENABLE
-#define UTSK_ENABLE
-#endif
+#ifdef ENABLE_TSK_SCHEDULER
 
 typedef long utime_t;
 typedef void* TaskHandle_t;
@@ -36,6 +34,8 @@ int TaskDeInit(TaskHandle_t handle);
 const char* TaskGetName(TaskHandle_t handle);
 int TaskGetID(TaskHandle_t handle);
 int TaskJoin(TaskHandle_t handle);
+
+#endif
 
 #ifdef __cplusplus
 }

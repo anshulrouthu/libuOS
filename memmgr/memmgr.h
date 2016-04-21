@@ -11,6 +11,8 @@ extern "C"
 {
 #endif
 
+#ifdef ENABLE_MEMMGR
+
 #include <stdio.h>
 
 /**
@@ -65,6 +67,8 @@ size_t MemGetTotalMemFree();
  * @return total_mem size_t type total memory that is being allocated
  */
 size_t MemGetTotalMemAlloc();
+
+#endif
 
 #ifdef __cplusplus
 }
